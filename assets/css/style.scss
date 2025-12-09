@@ -87,6 +87,15 @@ a {
   &:hover {
     color: var(--accent-hover);
     text-shadow: 0 0 8px var(--accent-hover);
+    text-decoration: underline;
+  }
+  
+  &:visited {
+    color: var(--accent-color);
+  }
+  
+  &:active {
+    color: var(--accent-hover);
   }
 }
 
@@ -96,20 +105,21 @@ strong {
   font-weight: 600;
 }
 
-// Images
+// Icons
 img {
   max-width: 100%;
   height: auto;
   border-radius: 8px;
 }
 
-// Icons
+// Icons next to links
 img[alt="icon"] {
   width: 16px;
   height: 16px;
   margin-right: 8px;
   vertical-align: middle;
   border-radius: 3px;
+  display: inline-block;
 }
 
 // Content sections
@@ -136,6 +146,16 @@ h2:has(+ p a[href^="mailto"]) {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+// Link styling for better visibility
+p a {
+  font-weight: 500;
+  border-bottom: 1px solid transparent;
+  
+  &:hover {
+    border-bottom-color: var(--accent-hover);
+  }
 }
 
 // Responsive design
