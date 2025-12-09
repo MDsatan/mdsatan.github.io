@@ -4,22 +4,74 @@ layout: default
 ---
 
 <style type="text/css" media="screen">
+  body {
+    background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+    color: #f0f6fc;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  
   .container {
     margin: 10px auto;
     max-width: 600px;
     text-align: center;
+    padding: 2rem;
+    background: #161b22;
+    border-radius: 12px;
+    border: 1px solid #30363d;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    margin-top: 5rem;
   }
+  
   h1 {
     margin: 30px 0;
     font-size: 4em;
     line-height: 1;
     letter-spacing: -1px;
+    background: linear-gradient(45deg, #39d353, #00ff88);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  p {
+    color: #7d8590;
+    font-size: 1.2rem;
+    margin: 1rem 0;
+  }
+  
+  .nope-gif {
+    margin: 2rem 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .back-link {
+    display: inline-block;
+    margin-top: 2rem;
+    color: #39d353;
+    text-decoration: none;
+    padding: 0.8rem 1.5rem;
+    border: 2px solid #39d353;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  .back-link:hover {
+    background: #39d353;
+    color: #0d1117;
+    text-shadow: none;
   }
 </style>
 
 <div class="container">
   <h1>404</h1>
-
+  
+  <img src="https://usagif.com/wp-content/uploads/gifs/nope-pic-33.gif" alt="Nope" class="nope-gif">
+  
   <p><strong>Page not found :(</strong></p>
   <p>I don't know what you are looking for, but it's not here.</p>
+  
+  <a href="/" class="back-link">← Back to Home</a>
 </div>
