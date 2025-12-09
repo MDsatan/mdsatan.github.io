@@ -1,7 +1,8 @@
 # Hello World!
-My name is Sergei. I'm a security engineer and a musician. I'm currently working on a new album, so stay tuned!
 
 <div class="wrapper">
+
+My name is Sergei. I'm a security engineer and a musician. I'm currently working on a new album, so stay tuned!
 
 ## My Music
 I create **Industrial/Future Garage** music. Currently working on a new album, so stay tuned!
