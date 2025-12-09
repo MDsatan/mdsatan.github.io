@@ -78,38 +78,40 @@ p {
   font-size: 1.1rem;
 }
 
-// Links
-a {
-  color: var(--accent-color) !important;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  pointer-events: auto;
-  
-  &:hover {
-    color: var(--accent-hover) !important;
-    text-shadow: 0 0 8px var(--accent-hover);
-    text-decoration: underline;
-  }
-  
-  &:visited {
-    color: var(--accent-color) !important;
-  }
-  
-  &:active {
-    color: var(--accent-hover) !important;
-  }
+// Links - simplified and working
+a, a:link, a:visited {
+  color: #39d353 !important;
+  text-decoration: underline !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+}
+
+a:hover {
+  color: #56d364 !important;
+  text-decoration: underline !important;
+}
+
+a:active {
+  color: #56d364 !important;
+}
+
+// Ensure all links work regardless of parent
+* a {
+  color: #39d353 !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
 }
 
 // Ensure links inside paragraphs work
-p a, .wrapper a {
-  color: var(--accent-color) !important;
-  cursor: pointer;
-  pointer-events: auto;
+p a, .wrapper a, div a {
+  color: #39d353 !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  text-decoration: underline !important;
   
   &:hover {
-    color: var(--accent-hover) !important;
-    text-decoration: underline;
+    color: #56d364 !important;
+    text-decoration: underline !important;
   }
 }
 
