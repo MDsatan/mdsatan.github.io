@@ -80,22 +80,36 @@ p {
 
 // Links
 a {
-  color: var(--accent-color);
+  color: var(--accent-color) !important;
   text-decoration: none;
   transition: all 0.3s ease;
+  cursor: pointer;
+  pointer-events: auto;
   
   &:hover {
-    color: var(--accent-hover);
+    color: var(--accent-hover) !important;
     text-shadow: 0 0 8px var(--accent-hover);
     text-decoration: underline;
   }
   
   &:visited {
-    color: var(--accent-color);
+    color: var(--accent-color) !important;
   }
   
   &:active {
-    color: var(--accent-hover);
+    color: var(--accent-hover) !important;
+  }
+}
+
+// Ensure links inside paragraphs work
+p a, .wrapper a {
+  color: var(--accent-color) !important;
+  cursor: pointer;
+  pointer-events: auto;
+  
+  &:hover {
+    color: var(--accent-hover) !important;
+    text-decoration: underline;
   }
 }
 
@@ -234,4 +248,14 @@ body {
   margin: 2rem 0;
   border: 1px solid var(--border-color);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  pointer-events: auto;
+  
+  a {
+    pointer-events: auto !important;
+    color: var(--accent-color) !important;
+    
+    &:hover {
+      color: var(--accent-hover) !important;
+    }
+  }
 }
