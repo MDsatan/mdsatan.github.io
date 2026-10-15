@@ -24,6 +24,16 @@ kramdown:
 
 permalink: pretty
 
+# Cache-busting token for /assets/*. Appended as ?v=N in the layout.
+#
+# Why this exists: the CDN (Cloudflare) caches CSS/JS for 4 hours
+# (cache-control: max-age=14400, cf-cache-status: HIT) while HTML is
+# served DYNAMIC with a 10 minute TTL. After a deploy the new HTML ships
+# immediately but still points at the previously cached stylesheet, so
+# for up to 4 hours visitors get new markup with old CSS — broken layout.
+# Bump this number whenever style.css or player.js changes.
+asset_version: 3
+
 exclude:
   - "*.old"
   - gemfile
