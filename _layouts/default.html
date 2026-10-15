@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title and page.title != site.title %}{{ page.title }} · {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <meta name="description" content="{{ page.description | default: site.description }}">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#000000">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Doto:ROND,wght@0..100,100..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&display=swap">
+
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='9' fill='%23fff'/></svg>">
+</head>
+<body>
+  <div class="frame">
+
+    <header class="site-head">
+      <div class="head-row">
+        <span class="dot" aria-hidden="true"></span>
+        <span class="label">SERGEI ZELENTSOV</span>
+        <span class="head-meta">MDST.SPACE</span>
+      </div>
+      <div class="rule" aria-hidden="true"></div>
+    </header>
+
+    <main class="site-main">
+      {{ content }}
+    </main>
+
+    <footer class="site-foot">
+      <div class="rule" aria-hidden="true"></div>
+      <div class="foot-row">
+        <span class="label">© 2025 SERGEI ZELENTSOV</span>
+        <span class="label">TBILISI · GE</span>
+      </div>
+    </footer>
+
+  </div>
+</body>
+</html>
