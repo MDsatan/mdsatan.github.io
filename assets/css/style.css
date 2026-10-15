@@ -1,25 +1,36 @@
 /* ==========================================================================
-   Nothing-OS-inspired design language — self-contained (no theme import)
-   Monochrome, hairline structure, dot-matrix display type, one red signal.
+   Nothing OS design language — self-contained (no theme import)
+
+   Principles
+     1. Monochrome. Black canvas, white type. Nothing else, except:
+     2. One signal. The red dot (`--accent`) appears once per view.
+     3. Hairlines, never shadows. Structure comes from 1px rules.
+     4. Dot-matrix display type (Doto) for the name only — it is illegible
+        below ~36px, so every smaller label uses Geist Mono.
    ========================================================================== */
 
 :root {
   /* Surfaces — dark-first, OLED black */
   --bg: #000000;
-  --surface: #0e0e0e;
-  --raised: #171717;
-  --line: #1f1f1f;
-  --line-2: #333333;
+  --surface: #0b0b0b;
+  --raised: #141414;
+  --line: #1c1c1c;
+  --line-2: #2e2e2e;
 
   /* Text */
   --display: #ffffff;
-  --primary: #ededed;
-  --secondary: #8c8c8c;
-  --muted: #5a5a5a;
+  --primary: #e8e8e8;
+  --secondary: #8a8a8a;
+  --muted: #5c5c5c;
 
   /* The single signal accent */
   --accent: #d71921;
-  --accent-text: #ff4438;
+
+  /* Dot field: fine, uniform, and very quiet. Kept off `mix-blend-mode`
+     so the dots read as texture instead of harsh white specks. */
+  --dot-color: rgba(255, 255, 255, 0.075);
+  --dot-r: 1px;
+  --dot-gap: 24px;
 
   /* Type */
   --f-display: "Doto", "Geist Mono", ui-monospace, monospace;
@@ -39,25 +50,23 @@
   --s-48: 48px;
   --s-64: 64px;
   --s-80: 80px;
-  --s-96: 96px;
 
   --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
-  --t-micro: 200ms;
-  --t-trans: 400ms;
+  --t-micro: 180ms;
 }
 
 @media (prefers-color-scheme: light) {
   :root {
-    --bg: #f2f2f2;
+    --bg: #fafafa;
     --surface: #ffffff;
-    --raised: #ededed;
-    --line: #e5e7eb;
-    --line-2: #cfcfcf;
+    --raised: #f1f1f1;
+    --line: #e6e6e6;
+    --line-2: #d4d4d4;
     --display: #000000;
-    --primary: #1c1c1c;
-    --secondary: #585a5a;
-    --muted: #9a9a9a;
-    --accent-text: #c2141c;
+    --primary: #1a1a1a;
+    --secondary: #5c5c5c;
+    --muted: #9b9b9b;
+    --dot-color: rgba(0, 0, 0, 0.055);
   }
 }
 
@@ -75,28 +84,28 @@ body {
   font-size: 16px;
   font-weight: 400;
   line-height: 1.5;
-  letter-spacing: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-/* --- Dot field: sparse round dots, local-inverse via difference blend ------ */
+/* --- Dot field -------------------------------------------------------------
+   Sits above the canvas but below content, on its own stacking layer. */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
-  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.42) 1.3px, transparent 1.3px);
-  background-size: 120px 120px;
-  background-attachment: fixed;
-  mix-blend-mode: difference;
-  opacity: 0.42;
+  background-image: radial-gradient(circle, var(--dot-color) var(--dot-r), transparent var(--dot-r));
+  background-size: var(--dot-gap) var(--dot-gap);
+  background-position: center center;
 }
 
 /* --- Frame ----------------------------------------------------------------- */
 .frame {
+  position: relative;
+  z-index: 1;
   max-width: 720px;
   margin: 0 auto;
   padding: var(--s-32) var(--s-24) var(--s-48);
@@ -125,8 +134,9 @@ body::before {
 .label {
   font-family: var(--f-mono);
   font-size: 11px;
-  line-height: 1.2;
-  letter-spacing: 0.09em;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--secondary);
   white-space: nowrap;
@@ -134,10 +144,13 @@ body::before {
 
 .head-meta { margin-left: auto; }
 
+/* Pushes a trailing label to the right edge of any row. */
+.push { margin-left: auto; }
+
 /* The one signal dot in the chrome */
 .dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--accent);
   flex: 0 0 auto;
@@ -151,23 +164,25 @@ body::before {
 
 .hero-name {
   font-family: var(--f-display);
-  font-variation-settings: "ROND" 100;
-  font-weight: 400;
-  font-size: clamp(48px, 13vw, 96px);
-  line-height: 1.02;
-  letter-spacing: -0.02em;
+  font-variation-settings: "ROND" 100, "wght" 500;
+  font-weight: 500;
+  font-size: clamp(44px, 10.5vw, 84px);
+  line-height: 1.06;
+  /* Doto's dots collide when tracked tight — a hair of positive tracking
+     keeps the letterforms readable as dots. */
+  letter-spacing: 0.015em;
   color: var(--display);
-  margin: 0 0 var(--s-16);
+  margin: 0 0 var(--s-20);
   text-transform: uppercase;
 }
 
 .hero-role {
   font-family: var(--f-ui);
-  font-size: 18px;
-  line-height: 1.4;
+  font-size: 17px;
+  line-height: 1.45;
   color: var(--secondary);
   margin: 0;
-  max-width: 34ch;
+  max-width: 32ch;
 }
 
 /* --- Sections -------------------------------------------------------------- */
@@ -186,8 +201,8 @@ body::before {
   font-family: var(--f-mono);
   font-size: 11px;
   font-weight: 500;
-  line-height: 1.2;
-  letter-spacing: 0.09em;
+  line-height: 1;
+  letter-spacing: 0.12em;
   color: var(--muted);
   min-width: 2ch;
   transition: color var(--t-micro) var(--ease);
@@ -199,7 +214,8 @@ body::before {
   font-family: var(--f-mono);
   font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.09em;
+  line-height: 1;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--display);
   margin: 0;
@@ -234,31 +250,122 @@ a {
   text-decoration: none;
   border-bottom: 1px solid var(--line-2);
   padding-bottom: 1px;
-  transition: border-color var(--t-micro) var(--ease), opacity var(--t-micro) var(--ease);
+  transition: border-color var(--t-micro) var(--ease);
 }
 
 a:hover,
 a:focus-visible { border-bottom-color: var(--display); }
 
-a:focus-visible {
-  outline: 2px solid rgb(59 130 246 / 0.55);
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
-/* --- Player: bordered, square-ish, no shadow ------------------------------- */
+/* --- Player ---------------------------------------------------------------
+   The stock SoundCloud embed fights this design: a brand-orange progress bar,
+   a photographic waveform, a "Share" button and a "Privacy policy" badge.
+   So the widget is driven headlessly through the SoundCloud Widget API and
+   only this hairline card is shown. */
 .player {
+  display: flex;
+  align-items: center;
+  gap: var(--s-16);
   margin-top: var(--s-20);
+  padding: var(--s-16);
   border: 1px solid var(--line-2);
   border-radius: 8px;
-  overflow: hidden;
   background: var(--surface);
 }
 
-.player iframe {
-  display: block;
-  width: 100%;
+.player-btn {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line-2);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--display);
+  cursor: pointer;
+  transition: background-color var(--t-micro) var(--ease),
+              border-color var(--t-micro) var(--ease),
+              color var(--t-micro) var(--ease);
+}
+
+.player-btn:hover { border-color: var(--display); }
+
+.player.is-playing .player-btn {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+.player-btn svg { width: 14px; height: 14px; display: block; }
+.player-btn .i-pause { display: none; }
+.player.is-playing .player-btn .i-play { display: none; }
+.player.is-playing .player-btn .i-pause { display: block; }
+
+.player-body { flex: 1; min-width: 0; }
+
+.player-title {
+  font-family: var(--f-ui);
+  font-size: 15px;
+  color: var(--display);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.player-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--s-12);
+  margin-top: var(--s-4);
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.player-time { margin-left: auto; font-variant-numeric: tabular-nums; }
+
+.player-bar {
+  position: relative;
+  height: 2px;
+  margin-top: var(--s-12);
+  background: var(--line-2);
+  overflow: hidden;
+}
+
+.player-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  background: var(--accent);
+  transition: width 120ms linear;
+}
+
+/* The widget is kept off-screen rather than collapsed: its internal canvas
+   needs a non-zero size or it throws createPattern() errors. */
+.player-frame {
+  position: absolute;
+  width: 320px;
   height: 166px;
-  border: 0;
+  opacity: 0;
+  pointer-events: none;
+  left: -10000px;
+  top: 0;
+}
+
+.player-fallback {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 /* --- Mono data line -------------------------------------------------------- */
@@ -267,21 +374,22 @@ a:focus-visible {
   flex-wrap: wrap;
   gap: var(--s-8) var(--s-24);
   font-family: var(--f-mono);
-  font-size: 12px;
-  letter-spacing: 0.04em;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   color: var(--secondary);
   margin-top: var(--s-16);
 }
 
 .data-line b {
-  color: var(--primary);
+  color: var(--display);
   font-weight: 500;
 }
 
 /* --- Contact block --------------------------------------------------------- */
 .contact-mail {
   font-family: var(--f-mono);
-  font-size: clamp(16px, 4.4vw, 24px);
+  font-size: clamp(16px, 4.4vw, 22px);
   letter-spacing: -0.01em;
   color: var(--display);
   border-bottom: 1px solid var(--line-2);
@@ -294,11 +402,11 @@ a:focus-visible {
 /* --- 404 ------------------------------------------------------------------- */
 .err-code {
   font-family: var(--f-display);
-  font-variation-settings: "ROND" 100;
-  font-weight: 400;
-  font-size: clamp(96px, 30vw, 200px);
-  line-height: 0.85;
-  letter-spacing: -0.03em;
+  font-variation-settings: "ROND" 100, "wght" 500;
+  font-weight: 500;
+  font-size: clamp(72px, 22vw, 160px);
+  line-height: 1;
+  letter-spacing: 0.01em;
   color: var(--display);
   margin: 0 0 var(--s-24);
 }
@@ -313,6 +421,7 @@ a:focus-visible {
   .hero { margin-bottom: var(--s-64); }
   .section { margin-bottom: var(--s-48); }
   .head-meta { display: none; }
+  .player { gap: var(--s-12); padding: var(--s-12); }
 }
 
 @media (prefers-reduced-motion: reduce) {
